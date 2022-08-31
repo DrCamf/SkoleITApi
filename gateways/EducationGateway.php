@@ -1,5 +1,5 @@
 <?php
-
+/* EducationGateway
 class LoginGateway 
 {
 
@@ -11,7 +11,7 @@ class LoginGateway
     {
         $this->db = $db;
     }
-/*
+
     public function insert(Array $input)
     {
        
@@ -36,7 +36,7 @@ class LoginGateway
         {
             exit($e->getMessage());
         }    
-    }*/
+    }
 
     public function find($id){
        
@@ -68,7 +68,7 @@ class LoginGateway
 
 
 
-}
+}*/
 
 
 

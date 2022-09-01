@@ -23,7 +23,7 @@ $item = "";*/
 // Getting id and if the is an item that too
 if ($_GET) {
     //$pass = $_GET['pass'];
-    echo "dude";
+    
     $id = $_GET['id'];
 } else {
     echo "NOOOOOO";

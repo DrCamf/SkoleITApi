@@ -32,19 +32,19 @@ if($_POST) {
     $host = "localhost";  
 
     //$username = "admin";  
-    /* server
+   // server
     $dbusername = "clvsnhfo_sdeAdmin";
     $dbpassword = "sde130ErOk";  
     $database = "clvsnhfo_svendetryoutdb";
 
 
-    */
+/*
         //$database = "serverroom";   
         $database = "svendetryout";
         $message = "";  
         $dbusername = "root";
         $dbpassword = "";  
-
+*/
     try {
 
         $conn = new \PDO(

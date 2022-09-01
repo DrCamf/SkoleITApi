@@ -11,32 +11,39 @@ class LoginGateway
     {
         $this->db = $db;
     }
-/*
+
     public function insert(Array $input)
     {
        
-        $statement = "        
-        INSERT INTO sensorData (`s_data`, `sensordate`, `sensor_id`, type_id) 
-        VALUES(:s_data, :sensordate, :sensorid, :typeid); ";
+        $statement = "CALL CreateLogins(:username, :password, @out_value)";     
+        $newstatement = "CALL AddStudentToLogin(:loginid , studid )";
 
         try {
 
             $statement = $this->db->prepare($statement);
-          
+           
+            $hashed_password = password_hash($input['password'], PASSWORD_DEFAULT);
             $statement->execute(array(
-                's_data' => $input['s_data'],
-                'typeid'=>$input['typeid'],
-                'sensordate'  => $input['sensordate'],
-                'sensorid' => $input['sensorid'] 
+                'username'  => $input['username'],
+                'password' => $hashed_password 
             ));
 
+            // se på return 
+
             return $statement->rowCount();
+
+            $newstatement = $this->db->prepare($newstatement);
+            $newstatement->execute(array(
+                //'loginid'  => //return from former,
+                'studid' => $studid
+            ));
+
 
         } catch (\PDOException $e) 
         {
             exit($e->getMessage());
         }    
-    }*/
+    }
 
     public function find($id){
        

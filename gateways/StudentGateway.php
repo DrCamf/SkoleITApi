@@ -1,6 +1,6 @@
 <?php
-/* StudentGateway
-class LoginGateway 
+ //StudentGateway
+class StudentGateway 
 {
 
     private $db = null;
@@ -16,8 +16,7 @@ class LoginGateway
     {
        
         $statement = "        
-        INSERT INTO sensorData (`s_data`, `sensordate`, `sensor_id`, type_id) 
-        VALUES(:s_data, :sensordate, :sensorid, :typeid); ";
+         ";
 
         try {
 
@@ -38,7 +37,7 @@ class LoginGateway
         }    
     }
 
-    public function find($id){
+    public function findStudentInfoShort($id){
        
         $statement ="SELECT `username`, `password` FROM `sdelogin` WHERE username = :username"; //:id;
       
@@ -57,6 +56,11 @@ class LoginGateway
             exit($e->getMessage());
         }    
     }
+    
+    public function findStudentInfoLong($id){}
+
+    public function findStudentCard($id){}
+
 
     
 
@@ -68,7 +72,7 @@ class LoginGateway
 
 
 
-}*/
+}
 
 
 

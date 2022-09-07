@@ -1,6 +1,13 @@
 <?php 
 
+include_once 'Controller/AbsenseController.php';
 include_once 'Controller/LoginController.php';
+include_once 'Controller/EducationController.php';
+include_once 'Controller/FagController.php';
+include_once 'Controller/MessageController.php';
+include_once 'Controller/SkemaController.php';
+include_once 'Controller/StudentController.php';
+include_once 'Controller/TeacherController.php';
 
 
 header("Access-Control-Allow-Origin: *");
@@ -17,13 +24,13 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 //Getting what gateway to use
-/*$pass = "";
-$item = "";*/
+$pass = "";
+$item = "";
 //$id = "";
 // Getting id and if the is an item that too
 if ($_GET) {
-    //$pass = $_GET['pass'];
-    
+    $pass = $_GET['pass'];
+    $item = $_GET['item'];
     $id = $_GET['id'];
 } else {
     echo "NOOOOOO";
@@ -34,18 +41,46 @@ $requestMethod = $_SERVER["REQUEST_METHOD"];
 
 //
 
+switch($pass) {
 
-   
-$controller = new LoginController($requestMethod, $id);
-        
-    
-    
-    /*default:
-       $controller = new UdlaanController($requestMethod, $id);
-        break;*/
+    case 'underviser':
+        $controller = new TeacherController($requestMethod, $id);
+        break;
 
+    case 'elev':
+        $controller = new StudentController($requestMethod, $item, $id);
+        break;
+
+    case 'login':
+        $controller = new LoginController($requestMethod, $id);
+        break;
+
+    case 'studie':
+        $controller = new EducationController($requestMethod, $id);
+        break;
+
+    case 'fag':
+        $controller = new FagController($requestMethod, $id);
+        break;
+
+    case 'besked':
+        $controller = new MessageController($requestMethod,$id);
+        break;
+    
+    case 'skema':
+        $controller = new SkemaController($requestMethod,$id);
+        break;
+    
+    default:
+        $controller = new LoginController($requestMethod, $id);
+        break;
+}
 
 $controller->processRequest();
+   
+      
+    
+   
 
 ?>
 

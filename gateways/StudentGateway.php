@@ -11,7 +11,7 @@ class StudentGateway
     {
         $this->db = $db;
     }
-
+/*
     public function insert(Array $input)
     {
        
@@ -36,7 +36,7 @@ class StudentGateway
             exit($e->getMessage());
         }    
     }
-
+*/
     public function findStudentInfoShort($id){
        
         $statement ="SELECT `username`, `password` FROM `sdelogin` WHERE username = :username"; //:id;

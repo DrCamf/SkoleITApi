@@ -1,6 +1,6 @@
 <?php
-/* TeacherGateway
-class LoginGateway 
+
+class TeacherGateway 
 {
 
     private $db = null;
@@ -15,9 +15,7 @@ class LoginGateway
     public function insert(Array $input)
     {
        
-        $statement = "        
-        INSERT INTO sensorData (`s_data`, `sensordate`, `sensor_id`, type_id) 
-        VALUES(:s_data, :sensordate, :sensorid, :typeid); ";
+        $statement = "";
 
         try {
 
@@ -40,9 +38,8 @@ class LoginGateway
 
     public function find($id){
        
-        $statement ="SELECT `username`, `password` FROM `sdelogin` WHERE username = :username"; //:id;
-      
-
+        $statement =""; //:id;
+    
         try {
 
             $statement = $this->db->prepare($statement);
@@ -58,17 +55,7 @@ class LoginGateway
         }    
     }
 
-    
-
-
-
-
-
-
-
-
-
-}*/
+}
 
 
 

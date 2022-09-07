@@ -1,11 +1,11 @@
 
 <?php
 //student controller 
-/*
-include_once 'gateways/LoginGateway.php';
+
+include_once 'gateways/StudentGateway.php';
 include_once 'database/DatabaseConnector.php';
 
-class LoginController {
+class StudentController {
 
     private $db;
 
@@ -13,7 +13,7 @@ class LoginController {
 
     private $id;
 
-    private $loginGateway;
+    private $studentGateway;
 
     public function __construct( $requestMethod, $id)
     {
@@ -24,10 +24,10 @@ class LoginController {
 
         $this->id = $id;
 
-        $this->loginGateway = new LoginGateway($db->getConnection());
+        $this->studentGateway = new StudentGateway($db->getConnection());
     }
 
-    public function processRequest()
+    public function processRequest($item)
     {
         
 
@@ -51,7 +51,7 @@ class LoginController {
 
     }
 
-    private function createSensorDataFromRequest()
+    private function createStudentDataFromRequest()
     {
 
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
@@ -113,6 +113,6 @@ class LoginController {
 
     }
 
-}*/
+}
 
 ?>

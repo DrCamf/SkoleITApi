@@ -1,6 +1,6 @@
 <?php
-/* SKemaGateway
-class LoginGateway 
+ //SKemaGateway
+class SkemaGateway 
 {
 
     private $db = null;
@@ -12,7 +12,7 @@ class LoginGateway
         $this->db = $db;
     }
 
-    public function insert(Array $input)
+   /* public function insert(Array $input)
     {
        
         $statement = "        
@@ -36,7 +36,7 @@ class LoginGateway
         {
             exit($e->getMessage());
         }    
-    }
+    }*/
 
     public function find($id){
        
@@ -68,7 +68,7 @@ class LoginGateway
 
 
 
-}*/
+}
 
 
 

@@ -32,51 +32,50 @@ if ($_GET) {
     $pass = $_GET['pass'];
     $item = $_GET['item'];
     $id = $_GET['id'];
+
+    //Getting what method is requested it could be get, post, put or delete
+    $requestMethod = $_SERVER["REQUEST_METHOD"];
+
+    switch($pass) {
+
+        case 'underviser':
+            $controller = new TeacherController($requestMethod, $id);
+            break;
+
+        case 'elev':
+            $controller = new StudentController($requestMethod, $item ,$id);
+            break;
+
+        case 'login':
+            $controller = new LoginController($requestMethod, $id);
+            break;
+
+        case 'studie':
+            $controller = new EducationController($requestMethod, $id);
+            break;
+
+        case 'fag':
+            $controller = new FagController($requestMethod, $id);
+            break;
+
+        case 'besked':
+            $controller = new MessageController($requestMethod,$id);
+            break;
+        
+        case 'skema':
+            $controller = new SkemaController($requestMethod,$id);
+            break;
+        
+        default:
+            $controller = new LoginController($requestMethod, $id);
+            break;
+    }
+    $controller->processRequest();
+
 } else {
     echo "NOOOOOO";
 }
 
-//Getting what method is requested it could be get, post, put or delete
-$requestMethod = $_SERVER["REQUEST_METHOD"];
-
-//
-
-switch($pass) {
-
-    case 'underviser':
-        $controller = new TeacherController($requestMethod, $id);
-        break;
-
-    case 'elev':
-        $controller = new StudentController($requestMethod, $item, $id);
-        break;
-
-    case 'login':
-        $controller = new LoginController($requestMethod, $id);
-        break;
-
-    case 'studie':
-        $controller = new EducationController($requestMethod, $id);
-        break;
-
-    case 'fag':
-        $controller = new FagController($requestMethod, $id);
-        break;
-
-    case 'besked':
-        $controller = new MessageController($requestMethod,$id);
-        break;
-    
-    case 'skema':
-        $controller = new SkemaController($requestMethod,$id);
-        break;
-    
-    default:
-        $controller = new LoginController($requestMethod, $id);
-        break;
-}
-
-$controller->processRequest();
    
       
     

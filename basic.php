@@ -22,7 +22,11 @@ if(!isset($_SERVER ['PHP_AUTH_USER'])) {
     //print($allow);  
 
     if($allow ) {
+        header("HTTP/1.1 200 OK");
+        
         print "You're INNNN";
+        print(now());
+        
     } else {
         header("WWW_Authenticate: Basic realm=\"Private Area\"");
         header("HTTP/1.0 401 Unauthorized");

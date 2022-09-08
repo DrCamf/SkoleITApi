@@ -38,15 +38,16 @@ class SkemaGateway
         }    
     }*/
 
-    public function find($id){
-       
-        $statement ="SELECT `username`, `password` FROM `sdelogin` WHERE username = :username"; //:id;
-      
+    public function findDay($id){
+        date_default_timezone_set('Europe/Copenhagen');
+        $date = date('Y-m-d', time());
+        $statement ="CALL GetSkemaDay(:dato, :id )"; //:id;
 
         try {
 
             $statement = $this->db->prepare($statement);
-            $statement->bindParam('username',  $id);
+            $statement->bindParam('dato',  $date);
+            $statement->bindParam('id',  $id);
             $statement->execute();
 
             $result = $statement->fetchAll(\PDO::FETCH_ASSOC);

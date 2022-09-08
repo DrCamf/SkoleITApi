@@ -67,7 +67,7 @@ class StudentGateway
     
     public function findStudentInfoLong($id){
 
-        $statement =""; ;
+        $statement ="CALL GetStudentInfoLong(:username);"; 
       
         try {
 
@@ -86,12 +86,13 @@ class StudentGateway
 
     public function findStudentCard($id){
 
-        $statement =""; ;
+       
+        $statement ="CALL GetStudentCard(:id)"; 
       
         try {
 
             $statement = $this->db->prepare($statement);
-            $statement->bindParam('username',  $id);
+            $statement->bindParam('useridname',  $id);
             $statement->execute();
 
             $result = $statement->fetchAll(\PDO::FETCH_ASSOC);

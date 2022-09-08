@@ -14,8 +14,9 @@ class StudentController {
     private $id;
 
     private $studentGateway;
+    private $item;
 
-    public function __construct( $requestMethod, $id)
+    public function __construct( $requestMethod,$item, $id)
     {
 
         $db = new DatabaseConnector();
@@ -23,6 +24,7 @@ class StudentController {
         $this->requestMethod = $requestMethod;
 
         $this->id = $id;
+        $this->item = $item;
 
         $this->studentGateway = new StudentGateway($db->getConnection());
     }
@@ -38,7 +40,19 @@ class StudentController {
                 break;
 
             case 'GET':
-                $response = $this->getSensorData($this->id);
+                switch ($this->item) {
+                    case 'short':
+                        $response = $this->getStudentDataShort($id);
+                    break;
+                    case 'card':
+                        $response = $this->getStudentCard($id);
+                    break;
+                    case 'long':
+                        $response = $this->findStudentInfoLong($id);
+                    break;
+
+                }
+                
                 break;
         }
 
@@ -62,7 +76,7 @@ class StudentController {
 
         }
 
-        $this->loginGateway->insert($input);
+        $this->studentGateway->insert($input);
 
         $response['status_code_header'] = 'HTTP/1.1 201 Created';
 
@@ -72,9 +86,25 @@ class StudentController {
 
     }
 
-    private function getSensorData($id) 
+    private function getStudentDataShort($id) 
     {
-        $result = $this->loginGateway->find($id);
+        $result = $this->studentGateway->findStudentInfoShort($id);
+
+        if (! $result) {
+
+            return $this->notFoundResponse();
+
+        }
+
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = json_encode($result);
+        
+        return $response;
+    }
+
+    private function getStudentCard($id) 
+    {
+        $result = $this->studentGateway->findStudentCard($id);
 
         if (! $result) {
 

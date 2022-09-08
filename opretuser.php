@@ -90,6 +90,9 @@ if($_POST) {
 
 } else {
     echo $html;
+    date_default_timezone_set('Europe/Copenhagen');
+    $date = date('Y-m-d', time());
+    echo $date;
 }
 
 

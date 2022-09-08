@@ -1,11 +1,11 @@
 
 <?php
 //skema controller 
-/*
-include_once 'gateways/LoginGateway.php';
+
+include_once 'gateways/SkemaGateway.php';
 include_once 'database/DatabaseConnector.php';
 
-class LoginController {
+class SkemaController {
 
     private $db;
 
@@ -13,7 +13,7 @@ class LoginController {
 
     private $id;
 
-    private $loginGateway;
+    private $skemaGateway;
 
     public function __construct( $requestMethod, $id)
     {
@@ -24,7 +24,7 @@ class LoginController {
 
         $this->id = $id;
 
-        $this->loginGateway = new LoginGateway($db->getConnection());
+        $this->skemaGateway = new SkemaGateway($db->getConnection());
     }
 
     public function processRequest()
@@ -33,12 +33,12 @@ class LoginController {
 
         switch ($this->requestMethod) 
         {
-            case 'POST':
+            /*case 'POST':
                 $response = $this->createSensorDataFromRequest();
-                break;
+                break;*/
 
             case 'GET':
-                $response = $this->getSensorData($this->id);
+                $response = $this->getSkemaData($this->id);
                 break;
         }
 
@@ -50,7 +50,7 @@ class LoginController {
         }
 
     }
-
+/*
     private function createSensorDataFromRequest()
     {
 
@@ -62,7 +62,7 @@ class LoginController {
 
         }
 
-        $this->loginGateway->insert($input);
+        $this->skemaGateway->insert($input);
 
         $response['status_code_header'] = 'HTTP/1.1 201 Created';
 
@@ -70,11 +70,11 @@ class LoginController {
 
         return $response;
 
-    }
+    }*/
 
-    private function getSensorData($id) 
+    private function getSkemaData($id) 
     {
-        $result = $this->loginGateway->find($id);
+        $result = $this->skemaGateway->findDay($id);
 
         if (! $result) {
 
@@ -112,7 +112,6 @@ class LoginController {
         return $response;
 
     }
-
-}*/
+}
 
 ?>

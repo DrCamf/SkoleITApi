@@ -28,64 +28,32 @@ $html =  '<!DOCTYPE html>
 
 
 if($_POST) {
-
-    $host = "localhost";  
-
-    //$username = "admin";  
-   // server
-    $dbusername = "clvsnhfo_sdeAdmin";
-    $dbpassword = "sde130ErOk";  
-    $database = "clvsnhfo_svendetryoutdb";
+    include_once 'database/DatabaseConnector.php';
+    include_once 'Controller/LoginController.php';
+    
+    $db = new DatabaseConnector();
+    $loginGateway = new LoginGateway($db->getConnection());
+   
 
 
-/*
-        //$database = "serverroom";   
-        $database = "svendetryout";
-        $message = "";  
-        $dbusername = "root";
-        $dbpassword = "";  
-*/
-    try {
 
-        $conn = new \PDO(
-
-            "mysql:host=$host;charset=utf8mb4;dbname=$database",
-
-            $dbusername,
-
-            $dbpassword
-        );
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Connected successfully";
-
-    } catch (\PDOException $e) {
-
-        exit($e->getMessage());
-    }
+    
 
     $login = $_POST["login"];
     $password = $_POST["password"];
 
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    //$hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $statement = "INSERT INTO `sdelogin`(`username`, `password`) VALUES (:login, :password);";
-
-    try {
-
-        $statement = $conn->prepare($statement);
-      
-        $statement->execute(array(
-            'login' => $login,
-            'password'=>$hashed_password               
-        ));
+    $data = ["{'username': ". $login .", 'password': " . $password . "}"];
+    $result = json_encode($data);
+    $input = (array) json_decode(file_get_contents($result), TRUE);
+    if($loginGateway->insert($input)) {
+    
         echo "Done";
         echo $html;
-
-    } catch (\PDOException $e) 
-    {
-        exit($e->getMessage());
-    }       
-
+    
+    }
+    
 
 
 } else {

@@ -41,12 +41,14 @@ class SkemaGateway
     public function findDay($id){
         date_default_timezone_set('Europe/Copenhagen');
         $date = date('Y-m-d', time());
+        $dateback = date('Y-m-d', strtotime("-1 months"));
+        //echo $dateback;
         $statement ="CALL GetSkemaDay(:dato, :id )"; //:id;
 
         try {
 
             $statement = $this->db->prepare($statement);
-            $statement->bindParam('dato',  $date);
+            $statement->bindParam('dato',  $dateback);
             $statement->bindParam('id',  $id);
             $statement->execute();
 

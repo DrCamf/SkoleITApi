@@ -12,11 +12,45 @@ class LoginGateway
         $this->db = $db;
     }
 
+
+    private function getStudid($studname) 
+    {
+        $statement = "CALL GetUsersId(:studname);";
+
+        try{
+            $statement = $this->db->prepare($keystatement);
+            $statement->execute(array(
+                'studname'  => $input['username']
+            ));
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $e) 
+        {
+            exit($e->getMessage());
+        }
+     
+    }
+
+    private function getloginid()
+    {
+        $statement = "CALL GetLastLoginId()";
+        try {
+            $statement = $this->db->prepare($statement);
+            $statement->execute();
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (\PDOException $e) 
+        {
+            exit($e->getMessage());
+        }
+    } 
+
     public function insert(Array $input)
     {
        
-        $statement = "CALL CreateLogins(:username, :password, @out_value)";     
+        $statement = "CALL CreateLogin(:username, :password)";     
         $newstatement = "CALL AddStudentToLogin(:loginid , studid )";
+        
 
         try {
 
@@ -27,16 +61,23 @@ class LoginGateway
                 'username'  => $input['username'],
                 'password' => $hashed_password 
             ));
-
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
             // se på return 
-
-            return $statement->rowCount();
+           
+            //return $statement->rowCount();
+            
+           
+            $studid = getStudid($input['username']);
+            $loginid = getloginid();
 
             $newstatement = $this->db->prepare($newstatement);
             $newstatement->execute(array(
-                //'loginid'  => //return from former,
+                'loginid'  => $loginid,
                 'studid' => $studid
             ));
+            if($newstatement->rowCount() > 0){
+                return true;
+            }
 
 
         } catch (\PDOException $e) 

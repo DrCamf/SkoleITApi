@@ -8,7 +8,7 @@ if(!isset($_SERVER ['PHP_AUTH_USER'])) {
     print "Sorry, you have no credentials";
     exit;
 } else {
-    $allow = false;
+    $allow = 0;
     $db = new DatabaseConnector();
     $accessControl = new AccessControll($db->getConnection());
     
@@ -16,16 +16,16 @@ if(!isset($_SERVER ['PHP_AUTH_USER'])) {
     $username = $_SERVER['PHP_AUTH_USER'];
     $password = $_SERVER['PHP_AUTH_PW'];
     
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    //$hashed_password = password_hash($password, PASSWORD_DEFAULT);
     
     $allow = $accessControl->find($username, $password);
-    //print($allow);  
+     
 
-    if($allow ) {
+    if($allow > 0 ) {
         header("HTTP/1.1 200 OK");
         
         print "You're INNNN";
-        print(now());
+        
         
     } else {
         header("WWW_Authenticate: Basic realm=\"Private Area\"");

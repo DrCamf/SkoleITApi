@@ -32,9 +32,9 @@ class LoginController {
 
         switch ($this->requestMethod) 
         {
-            /*case 'POST':
-                $response = $this->createSensorDataFromRequest();
-                break;*/
+            case 'POST':
+                $response = $this->createLoginFromRequest();
+                break;
 
             case 'GET':
                 $response = $this->getSensorData($this->id);
@@ -50,7 +50,7 @@ class LoginController {
 
     }
 
-    private function createSensorDataFromRequest()
+    private function createLoginFromRequest()
     {
 
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);

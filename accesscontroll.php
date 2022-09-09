@@ -14,7 +14,7 @@ class AccessControll
 
 
     public function find($user, $pass) {
-        $statement ="SELECT `username`, `password` FROM `sdelogin` WHERE username = :username"; //:id;
+        $statement ="SELECT UsersLogins.user_id, `username`, `password` FROM `sdelogin` INNER JOIN UsersLogins ON UsersLogins.login_id = sdelogin.id WHERE sdelogin.username = :username"; //:id;
       
 
         try {
@@ -24,14 +24,14 @@ class AccessControll
             $statement->execute();
     
             $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-            ;
+            
             $count = $statement->columnCount();
-            //echo $count;
+            $id = $result[0]["user_id"];
             if($count > 0) {
                 
                if(password_verify($pass, $result[0]["password"])) {
                     
-                    return true;
+                    return $id;
                 }
                 
                 

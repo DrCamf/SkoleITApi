@@ -26,7 +26,7 @@ $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 //Getting what gateway to use
 $pass = "";
 $item = "";
-//$id = "";
+$id = 0;
 // Getting id and if the is an item that too
 if ($_GET) {
     $pass = $_GET['pass'];

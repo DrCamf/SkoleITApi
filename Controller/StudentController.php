@@ -2,6 +2,7 @@
 <?php
 //student controller 
 
+include_once 'ControllerFunctions.php';
 include_once 'gateways/StudentGateway.php';
 include_once 'database/DatabaseConnector.php';
 
@@ -16,7 +17,7 @@ class StudentController {
     private $studentGateway;
     private $item;
 
-    public function __construct( $requestMethod,$item, $id)
+    public function __construct( $requestMethod, $item, $id)
     {
 
         $db = new DatabaseConnector();
@@ -29,7 +30,7 @@ class StudentController {
         $this->studentGateway = new StudentGateway($db->getConnection());
     }
 
-    public function processRequest($item)
+    public function processRequest()
     {
         
 
@@ -42,13 +43,13 @@ class StudentController {
             case 'GET':
                 switch ($this->item) {
                     case 'short':
-                        $response = $this->getStudentDataShort($id);
+                        $response = $this->getStudentDataShort($this->id);
                     break;
                     case 'card':
-                        $response = $this->getStudentCard($id);
+                        $response = $this->getStudentCard($this->id);
                     break;
                     case 'long':
-                        $response = $this->findStudentInfoLong($id);
+                        $response = $this->getStudentInfoLong($this->id);
                     break;
 
                 }
@@ -86,9 +87,9 @@ class StudentController {
 
     }
 
-    private function getStudentDataShort($id) 
+    private function getStudentDataShort() 
     {
-        $result = $this->studentGateway->findStudentInfoShort($id);
+        $result = $this->studentGateway->findStudentInfoShort($this->id);
 
         if (! $result) {
 
@@ -102,9 +103,9 @@ class StudentController {
         return $response;
     }
 
-    private function getStudentCard($id) 
+    private function getStudentCard() 
     {
-        $result = $this->studentGateway->findStudentCard($id);
+        $result = $this->studentGateway->findStudentCard($this->id);
 
         if (! $result) {
 
@@ -118,30 +119,23 @@ class StudentController {
         return $response;
     }
 
-    private function unprocessableEntityResponse()
+    private function getStudentInfoLong() 
     {
+        $result = $this->studentGateway->findStudentInfoLong($this->id);
 
-        $response['status_code_header'] = 'HTTP/1.1 422 Unprocessable Entity';
+        if (! $result) {
 
-        $response['body'] = json_encode([
+            return $this->notFoundResponse();
 
-            'error' => 'Invalid input'
+        }
 
-        ]);
-
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = json_encode($result);
+        
         return $response;
     }
 
-    private function notFoundResponse()
-    {
-
-        $response['status_code_header'] = 'HTTP/1.1 404 Not Found';
-
-        $response['body'] = null;
-
-        return $response;
-
-    }
+   
 
 }
 

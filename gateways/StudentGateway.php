@@ -87,7 +87,7 @@ class StudentGateway
     public function findStudentCard($id){
 
        
-        $statement ="CALL GetStudentCard(:id)"; 
+        $statement ="CALL GetStudentCard(:useridname)"; 
       
         try {
 

@@ -32,6 +32,7 @@ if ($_GET) {
     $pass = $_GET['pass'];
     $item = $_GET['item'];
     $id = $_GET['id'];
+    echo "pass " . $pass . " item " . $item . " id " . $id;
 
     //Getting what method is requested it could be get, post, put or delete
     $requestMethod = $_SERVER["REQUEST_METHOD"];

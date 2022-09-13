@@ -22,10 +22,7 @@ class TeacherGateway
             $statement = $this->db->prepare($statement);
           
             $statement->execute(array(
-                's_data' => $input['s_data'],
-                'typeid'=>$input['typeid'],
-                'sensordate'  => $input['sensordate'],
-                'sensorid' => $input['sensorid'] 
+                's_data' => $input['s_data']
             ));
 
             return $statement->rowCount();

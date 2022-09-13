@@ -1,11 +1,11 @@
 
 <?php
 //teacher controller 
-/*
-include_once 'gateways/LoginGateway.php';
+include_once 'ControllerFunctions.php';
+include_once 'gateways/TeacherGateway.php';
 include_once 'database/DatabaseConnector.php';
 
-class LoginController {
+class TeacherController {
 
     private $db;
 
@@ -13,7 +13,7 @@ class LoginController {
 
     private $id;
 
-    private $loginGateway;
+    private $teacherGateway;
 
     public function __construct( $requestMethod, $id)
     {
@@ -24,7 +24,7 @@ class LoginController {
 
         $this->id = $id;
 
-        $this->loginGateway = new LoginGateway($db->getConnection());
+        $this->teacherGateway = new TeacherGateway($db->getConnection());
     }
 
     public function processRequest()
@@ -34,11 +34,11 @@ class LoginController {
         switch ($this->requestMethod) 
         {
             case 'POST':
-                $response = $this->createSensorDataFromRequest();
+                $response = $this->createTeacherInputFromRequest();
                 break;
 
             case 'GET':
-                $response = $this->getSensorData($this->id);
+                $response = $this->getTeacherData($this->id);
                 break;
         }
 
@@ -51,7 +51,7 @@ class LoginController {
 
     }
 
-    private function createSensorDataFromRequest()
+    private function createTeacherInputFromRequest()
     {
 
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
@@ -62,7 +62,7 @@ class LoginController {
 
         }
 
-        $this->loginGateway->insert($input);
+        $this->teacherGateway->insert($input);
 
         $response['status_code_header'] = 'HTTP/1.1 201 Created';
 
@@ -72,9 +72,9 @@ class LoginController {
 
     }
 
-    private function getSensorData($id) 
+    private function getTeacherData($id) 
     {
-        $result = $this->loginGateway->find($id);
+        $result = $this->teacherGateway->find($id);
 
         if (! $result) {
 
@@ -88,31 +88,8 @@ class LoginController {
         return $response;
     }
 
-    private function unprocessableEntityResponse()
-    {
+    
 
-        $response['status_code_header'] = 'HTTP/1.1 422 Unprocessable Entity';
-
-        $response['body'] = json_encode([
-
-            'error' => 'Invalid input'
-
-        ]);
-
-        return $response;
-    }
-
-    private function notFoundResponse()
-    {
-
-        $response['status_code_header'] = 'HTTP/1.1 404 Not Found';
-
-        $response['body'] = null;
-
-        return $response;
-
-    }
-
-}*/
+}
 
 ?>

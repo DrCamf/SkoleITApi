@@ -1,6 +1,6 @@
 <?php
-/* MessageGateway
-class LoginGateway 
+// MessageGateway
+class MessageGateway 
 {
 
     private $db = null;
@@ -15,19 +15,14 @@ class LoginGateway
     public function insert(Array $input)
     {
        
-        $statement = "        
-        INSERT INTO sensorData (`s_data`, `sensordate`, `sensor_id`, type_id) 
-        VALUES(:s_data, :sensordate, :sensorid, :typeid); ";
+        $statement = " ";
 
         try {
 
             $statement = $this->db->prepare($statement);
           
             $statement->execute(array(
-                's_data' => $input['s_data'],
-                'typeid'=>$input['typeid'],
-                'sensordate'  => $input['sensordate'],
-                'sensorid' => $input['sensorid'] 
+                's_data' => $input['s_data']
             ));
 
             return $statement->rowCount();
@@ -40,7 +35,7 @@ class LoginGateway
 
     public function find($id){
        
-        $statement ="SELECT `username`, `password` FROM `sdelogin` WHERE username = :username"; //:id;
+        $statement ="";
       
 
         try {
@@ -68,7 +63,7 @@ class LoginGateway
 
 
 
-}*/
+}
 
 
 

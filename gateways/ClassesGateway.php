@@ -1,11 +1,10 @@
 <?php
-//FagGateway
-class FagGateway 
+
+
+class ClassesGateway 
 {
 
     private $db = null;
-
-   
 
     public function __construct($db)
     {
@@ -55,7 +54,7 @@ class FagGateway
 
     public function findAll()
     {
-        $statement ="SELECT id, name FROM Fag";
+        $statement ="SELECT id, name FROM Classes";
       
 
         try {
@@ -72,18 +71,11 @@ class FagGateway
         }    
     }
 
-    
-
-
-
-
 
 
 
 
 
 }
-
-
 
 ?>

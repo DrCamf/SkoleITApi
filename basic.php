@@ -1,6 +1,16 @@
 <?php
 include_once 'database/DatabaseConnector.php';
 include 'accesscontroll.php';
+$db = new DatabaseConnector();
+$accessControl = new AccessControll($db->getConnection());
+
+
+
+
+
+
+
+
 
 if(!isset($_SERVER ['PHP_AUTH_USER'])) {
     header("WWW_Authenticate: Basic realm=\"Private Area\"");
@@ -8,23 +18,20 @@ if(!isset($_SERVER ['PHP_AUTH_USER'])) {
     print "Sorry, you have no credentials";
     exit;
 } else {
-    $allow = 0;
-    $db = new DatabaseConnector();
-    $accessControl = new AccessControll($db->getConnection());
-    
-
+    $allow = new LoginReturn();
     $username = $_SERVER['PHP_AUTH_USER'];
     $password = $_SERVER['PHP_AUTH_PW'];
-    
-    //$hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    
     $allow = $accessControl->find($username, $password);
+    //$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    //$responseBody = "{userid : '" . $allow . "' }";
+    
      
 
-    if($allow > 0 ) {
-        header("HTTP/1.1 200 OK");
+    if($allow != null ) {
         
-        print "You're INNNN";
+        header("HTTP/1.1 200 OK");
+        $response['body'] = json_encode($allow);
+        echo $response['body'];
         
         
     } else {

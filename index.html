@@ -4,9 +4,67 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="teststyles.css">
     <title>Document</title>
 </head>
 <body>
+    <script>
+       
+        function printdate(){
+            const elem = document.getElementById("camp-week");
+            var dat = getDateOfWeek(elem, '2022');
+            var y = document.getElementById("year");
+            var w = document.getElementById("weeke");
+            var dat = getDateOfWeek(w, '2022');
+            //s.innerHTML = elem.value;
+            y.innerHTML = "noget";
+           
+           
+            function checkDimps(id) {
+            var inputs = document. querySelectorAll('.check1');
+    }
+        }
+      </script>
     <p>Hello</p>
+
+
+
+    <input  type="checkbox" name="optiona" id="opta" checked />
+    <span class="checkboxtext">
+      Option A
+    </span>
+    <input type="checkbox" name="optionb" id="optb" />
+    <span class="checkboxtext">
+      Option B
+    </span>
+    <input type="checkbox" name="optionc" id="optc" />
+    <span class="checkboxtext">
+      Option C
+    </span>
+
+    <!--<form>
+        <input type="date" placeholder="dd:mm:yy" id="date_input" />
+        <input type="button" value="Get Weekday"  />
+      </form>
+      <p id="output">
+      
+      </p>
+      <div onclick=""></div>
+    <form action="" method="post">
+        <input type="text">
+        <label for="week" >
+        <select name="week" id="weeke" onchange="printdate()">
+            <option value=""></option>
+            input type=”week”
+        </select>
+    </label>
+        <input type="hidden" id:"Mandag_855 value="8.55">
+        <input type="submit" value="getclass">
+    </form>
+        <p id="year"></p>
+        <p id="week"></p>
+        <label for="week">Choose a week in Rest of 2022:</label>
+
+        <input type="week" name="week" id="camp-week" min="2022-W38" max="2022-W51" required onchange="printdate()">-->
 </body>
 </html>

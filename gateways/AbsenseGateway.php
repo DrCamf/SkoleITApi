@@ -53,16 +53,7 @@ class AbsenseGateway
         }    
     }
 
-    
-
-
-
-
-
-
-
-
-
+ 
 }
 
 

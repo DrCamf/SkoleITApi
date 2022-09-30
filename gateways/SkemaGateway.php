@@ -1,5 +1,6 @@
 <?php
  //SKemaGateway
+include_once 'models/SkemaModel.php';
 class SkemaGateway 
 {
 
@@ -12,43 +13,44 @@ class SkemaGateway
         $this->db = $db;
     }
 
-   /* public function insert(Array $input)
+    public function insert(SkemaModel $skema)
     {
        
-        $statement = "        
-        INSERT INTO sensorData (`s_data`, `sensordate`, `sensor_id`, type_id) 
-        VALUES(:s_data, :sensordate, :sensorid, :typeid); ";
+        /*$statement = "        
+        INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (:fagid, :locationdid, :start, :ending);
+        SELECT MAX(id) AS Mid FROM `Skema` LIMIT 1; ";
 
         try {
 
             $statement = $this->db->prepare($statement);
           
             $statement->execute(array(
-                's_data' => $input['s_data'],
-                'typeid'=>$input['typeid'],
-                'sensordate'  => $input['sensordate'],
-                'sensorid' => $input['sensorid'] 
+                'fagid' => $skema->fagid,
+                'locationid'=> $skema->locationid,
+                'start'  => $skema->start,
+                'ending' => $skema->ending 
             ));
-
-            return $statement->rowCount();
+           
+            $result = $statement->fetch(\PDO::FETCH_ASSOC);
+            return $result;
 
         } catch (\PDOException $e) 
         {
             exit($e->getMessage());
-        }    
-    }*/
+        }  */  
+    }
 
-    public function findDay($id){
-        date_default_timezone_set('Europe/Copenhagen');
+    public function findDay($whatday, $id){
+        /*date_default_timezone_set('Europe/Copenhagen');
         $date = date('Y-m-d', time());
-        $dateback = date('Y-m-d', strtotime("-1 months"));
+        $dateback = date('Y-m-d', strtotime("-1 months"));*/
         //echo $dateback;
         $statement ="CALL GetSkemaDay(:dato, :id )"; //:id;
 
         try {
 
             $statement = $this->db->prepare($statement);
-            $statement->bindParam('dato',  $dateback);
+            $statement->bindParam('dato',  $whatday);
             $statement->bindParam('id',  $id);
             $statement->execute();
 

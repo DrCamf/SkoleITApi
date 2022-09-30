@@ -52,6 +52,25 @@ class TeacherGateway
         }    
     }
 
+    public function findAll()
+    {
+        $statement ="SELECT id, firstName FROM Teacher";
+      
+
+        try {
+
+            $statement = $this->db->prepare($statement);
+            $statement->execute();
+
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+            return $result;
+        } catch (\PDOException $e)
+        {
+            exit($e->getMessage());
+        }    
+    }
+
 }
 
 

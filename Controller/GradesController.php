@@ -1,23 +1,21 @@
 
 <?php
-//skema controller 
-
+//absense controller 
 include_once 'ControllerFunctions.php';
-include_once 'gateways/SkemaGateway.php';
+include_once 'gateways/GradesGateway.php';
 include_once 'database/DatabaseConnector.php';
 
-class SkemaController {
+class GradesController {
 
     private $db;
 
     private $requestMethod;
 
     private $id;
-    private $item;
 
-    private $skemaGateway;
+    private $gradesController;
 
-    public function __construct( $requestMethod, $item, $id)
+    public function __construct( $requestMethod, $id)
     {
 
         $db = new DatabaseConnector();
@@ -25,9 +23,8 @@ class SkemaController {
         $this->requestMethod = $requestMethod;
 
         $this->id = $id;
-        $this->item = $item;
 
-        $this->skemaGateway = new SkemaGateway($db->getConnection());
+        $this->gradesController = new GradesController($db->getConnection());
     }
 
     public function processRequest()
@@ -36,12 +33,12 @@ class SkemaController {
 
         switch ($this->requestMethod) 
         {
-            /*case 'POST':
-                $response = $this->createSensorDataFromRequest();
-                break;*/
+            case 'POST':
+                $response = $this->createGradeDataFromRequest();
+                break;
 
             case 'GET':
-                $response = $this->getSkemaData($this->item, $this->id);
+                $response = $this->getGradeData($this->id);
                 break;
         }
 
@@ -53,19 +50,19 @@ class SkemaController {
         }
 
     }
-/*
-    private function createSensorDataFromRequest()
+
+    private function createGradeDataFromRequest()
     {
 
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-        if (! $this->validateEvent($input1)) {
+        if (! $this->validateEvent($input)) {
 
             return $this->unprocessableEntityResponse();
 
         }
 
-        $this->skemaGateway->insert($input);
+        $this->gradesController->insert($input);
 
         $response['status_code_header'] = 'HTTP/1.1 201 Created';
 
@@ -73,17 +70,17 @@ class SkemaController {
 
         return $response;
 
-    }*/
+    }
 
-    private function getSkemaData($item, $id) 
+    private function getGradeData($id) 
     {
-        $result = $this->skemaGateway->findDay($item, $id);
+        $result = $this->gradesController->find($id);
 
-        /*if (! $result) {
+        if (! $result) {
 
             return $this->notFoundResponse();
 
-        }*/
+        }
 
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
         $response['body'] = json_encode($result);
@@ -91,7 +88,8 @@ class SkemaController {
         return $response;
     }
 
-   
+    
+
 }
 
 ?>

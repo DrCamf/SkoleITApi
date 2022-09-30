@@ -3,10 +3,10 @@
 //fag controller 
 
 include_once 'ControllerFunctions.php';
-include_once 'gateways/FagGateway.php';
+include_once 'gateways/LocationsGateway.php';
 include_once 'database/DatabaseConnector.php';
 
-class FagController {
+class LocationController {
 
     private $db;
 
@@ -15,7 +15,7 @@ class FagController {
     private $id;
     private $item;
 
-    private $fagGateway;
+    private $locationGateway;
 
     public function __construct( $requestMethod, $item, $id)
     {
@@ -27,7 +27,7 @@ class FagController {
         $this->id = $id;
         $this->item = $item;
 
-        $this->fagGateway = new FagGateway($db->getConnection());
+        $this->locationGateway = new LocationsGateway($db->getConnection());
     }
 
     public function processRequest()
@@ -37,20 +37,17 @@ class FagController {
         switch ($this->requestMethod) 
         {
             case 'POST':
-                $response = $this->createFagDataFromRequest();
+                $response = $this->createLocationsDataFromRequest();
                 break;
 
             case 'GET':
                 if($this->item == 'one') {
-                    $response = $this->getFagData($this->id);
+                    $response = $this->getLocationsData($this->id);
                 } else {
-                    $response = $this->getAllFagData();
+                    $response = $this->getAllLocationsData();
                 }
-
-
-                
+             
                 break;
-
                 
         }
 
@@ -63,18 +60,18 @@ class FagController {
 
     }
 
-    private function createFagDataFromRequest()
+    private function createLocationsDataFromRequest()
     {
 
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-        if (! $this->validateEvent($input1)) {
+        /*if (! $this->validateEvent($input)) {
 
             return $this->unprocessableEntityResponse();
 
-        }
+        }*/
 
-        $this->fagGateway->insert($input);
+        $this->locationGateway->insert($input);
 
         $response['status_code_header'] = 'HTTP/1.1 201 Created';
 
@@ -84,9 +81,9 @@ class FagController {
 
     }
 
-    private function getFagData($id) 
+    private function getLocationsData($id) 
     {
-        $result = $this->fagGateway->find($id);
+        $result = $this->locationGateway->find($id);
 
         if (! $result) {
 
@@ -100,9 +97,9 @@ class FagController {
         return $response;
     }
 
-    private function getAllFagData() 
+    private function getAllLocationsData() 
     {
-        $result = $this->fagGateway->findAll();
+        $result = $this->locationGateway->findAll();
 
         if (! $result) {
 

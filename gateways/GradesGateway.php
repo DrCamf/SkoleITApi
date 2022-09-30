@@ -1,11 +1,10 @@
 <?php
-//FagGateway
-class FagGateway 
+// AbsenseGateway
+class GradesGateway 
 {
 
     private $db = null;
 
-   
 
     public function __construct($db)
     {
@@ -35,7 +34,7 @@ class FagGateway
 
     public function find($id){
        
-        $statement ="";
+        $statement =""; 
       
 
         try {
@@ -53,35 +52,7 @@ class FagGateway
         }    
     }
 
-    public function findAll()
-    {
-        $statement ="SELECT id, name FROM Fag";
-      
-
-        try {
-
-            $statement = $this->db->prepare($statement);
-            $statement->execute();
-
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
-
-            return $result;
-        } catch (\PDOException $e)
-        {
-            exit($e->getMessage());
-        }    
-    }
-
-    
-
-
-
-
-
-
-
-
-
+ 
 }
 
 

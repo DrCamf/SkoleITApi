@@ -97,7 +97,7 @@ class LoginGateway
             $statement->bindParam('username',  $id);
             $statement->execute();
 
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            $result = $statement->fetch(\PDO::FETCH_ASSOC);
 
             return $result;
         } catch (\PDOException $e)

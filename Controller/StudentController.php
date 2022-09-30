@@ -51,6 +51,8 @@ class StudentController {
                     case 'long':
                         $response = $this->getStudentInfoLong($this->id);
                     break;
+                    case 'grades':
+                        $response = $this->getStudentGrades($this->id);
 
                 }
                 
@@ -91,11 +93,11 @@ class StudentController {
     {
         $result = $this->studentGateway->findStudentInfoShort($this->id);
 
-        if (! $result) {
+       /* if (! $result) {
 
             return $this->notFoundResponse();
 
-        }
+        }*/
 
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
         $response['body'] = json_encode($result);
@@ -110,11 +112,11 @@ class StudentController {
         if (! $result) {
 
             return $this->notFoundResponse();
-
         }
 
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
         $response['body'] = json_encode($result);
+        
         
         return $response;
     }
@@ -135,6 +137,20 @@ class StudentController {
         return $response;
     }
 
+    private function getStudentGrades() 
+    {
+        $result = $this->studentGateway->findStudentGrades($this->id);
+
+        if (! $result) {
+
+            return $this->notFoundResponse();
+        }
+
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = json_encode($result);
+        
+        return $response;
+    }
    
 
 }

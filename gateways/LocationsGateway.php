@@ -1,7 +1,7 @@
 <?php
-//FagGateway
-class FagGateway 
-{
+
+class LocationsGateway {
+   
 
     private $db = null;
 
@@ -15,17 +15,18 @@ class FagGateway
     public function insert(Array $input)
     {
        
-        $statement = " ";
+        $statement = "INSERT INTO `Locations`(`name`) VALUES (:lname) ";
 
         try {
 
             $statement = $this->db->prepare($statement);
           
             $statement->execute(array(
-                's_data' => $input['s_data']
+                'lname' => $input['name']
             ));
-
-            return $statement->rowCount();
+            $last_id = $statement->lastInsertId();
+            
+            return  $last_id;
 
         } catch (\PDOException $e) 
         {
@@ -44,7 +45,7 @@ class FagGateway
             $statement->bindParam('username',  $id);
             $statement->execute();
 
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            $result = $statement->fetch(\PDO::FETCH_ASSOC);
 
             return $result;
         } catch (\PDOException $e)
@@ -55,7 +56,7 @@ class FagGateway
 
     public function findAll()
     {
-        $statement ="SELECT id, name FROM Fag";
+        $statement ="SELECT id, name FROM Locations";
       
 
         try {
@@ -72,16 +73,7 @@ class FagGateway
         }    
     }
 
-    
-
-
-
-
-
-
-
-
-
+  
 }
 
 

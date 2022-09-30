@@ -5,8 +5,6 @@ class StudentGateway
 
     private $db = null;
 
-   
-
     public function __construct($db)
     {
         $this->db = $db;
@@ -46,8 +44,7 @@ class StudentGateway
     }
 
     public function findStudentInfoShort($id){
-       
-        
+            
         $statement ="CALL GetStudentInfoShort(:username);"; 
       
         try {
@@ -56,7 +53,7 @@ class StudentGateway
             $statement->bindParam('username',  $id);
             $statement->execute();
 
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            $result = $statement->fetch(\PDO::FETCH_ASSOC);
 
             return $result;
         } catch (\PDOException $e)
@@ -75,7 +72,7 @@ class StudentGateway
             $statement->bindParam('username',  $id);
             $statement->execute();
 
-            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            $result = $statement->fetch(\PDO::FETCH_ASSOC);
 
             return $result;
         } catch (\PDOException $e)
@@ -85,7 +82,6 @@ class StudentGateway
     }
 
     public function findStudentCard($id){
-
        
         $statement ="CALL GetStudentCard(:useridname)"; 
       
@@ -95,15 +91,74 @@ class StudentGateway
             $statement->bindParam('useridname',  $id);
             $statement->execute();
 
+            $result = $statement->fetch(\PDO::FETCH_ASSOC);
+            
+            return $result;
+        } 
+        catch (\PDOException $e)
+        {
+            exit($e->getMessage());
+        } 
+    }
+
+
+    public function findStudentGrades($id){
+       
+        $statement ="CALL GetStudentGrades(:useridname)"; 
+      
+        try {
+
+            $statement = $this->db->prepare($statement);
+            $statement->bindParam('useridname',  $id);
+            $statement->execute();
+
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+              
+            return $result;
+        } 
+        catch (\PDOException $e)
+        {
+            exit($e->getMessage());
+        } 
+    }
+    public function findStudentByClass($id){
+       
+        $statement ="CALL GetUserByClass(:id)"; 
+      
+        try {
+
+            $statement = $this->db->prepare($statement);
+            $statement->bindParam('id',  $id);
+            $statement->execute();
+
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+          
+            return $result;
+        } 
+        catch (\PDOException $e)
+        {
+            exit($e->getMessage());
+        } 
+    }
+
+    public function findAll()
+    {
+        $statement ="SELECT id, firstName, sirName FROM Users";
+      
+
+        try {
+
+            $statement = $this->db->prepare($statement);
+            $statement->execute();
+
             $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
             return $result;
         } catch (\PDOException $e)
         {
             exit($e->getMessage());
-        } 
+        }    
     }
-
 
     
 

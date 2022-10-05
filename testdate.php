@@ -24,23 +24,23 @@ foreach ($dates  as $week) {
 145-165 1
 166-176 2
 */
-if($_POST) {
+
     $strSql = "";
     $strSqls = "";
-    for($i = $_POST["t1from"]; $I <= $_POST["t1to"]; $i++) {
-        $strSql .= "INSERT INTO `TeacherHours`(`skema_id`, `teacher_id`) VALUES (" . $i . ", " . $_POST['teacher'] . " );";
+    for($i = 230; $i <= 261; $i++) {
+        $strSql .= "INSERT INTO `TeacherHours`(`skema_id`, `teacher_id`) VALUES (" . $i . ", " . 1 . " );";
     }
-    for($i = $_POST["t2from"]; $i <= $_POST["t2to"]; $i++) {
-        $strSql .= "INSERT INTO `TeacherHours`(`skema_id`, `teacher_id`) VALUES (" . $i . ", " . $_POST['teacher2'] . " );";
-    }
+    /*for($i = 219; $i <= 229; $i++) {
+        $strSql .= "INSERT INTO `TeacherHours`(`skema_id`, `teacher_id`) VALUES (" . $i . ", " . 1 . " );";
+    }*/
 
-    for($i = $_POST["from"]; $i <= $_POST["to"]; $i++){
-        for($j = $_POST["studentfrom"]; $j <= $_POST["studentto"]; $j++) {
+    for($i = 230; $i <= 261; $i++){
+        for($j = 45; $j <= 71; $j++) {
             $strSqls .= "INSERT INTO `SkemaUser`(`skema_id`, `student_id`) VALUES ( ". $i . ", " . $j .  ");";
         }
     }
 
-}
+
 
 
 
@@ -62,13 +62,15 @@ if($_POST) {
 </head>
 <body>
 
+<?php
 
-<form action="todata.php" method="post">
-<input type="hidden" value="test" name="f" />
-<input type="submit" />
-</form>
+echo $strSql . "<br><br><br>";
+echo $strSqls
+?>
 
 
+
+<!--
 <h2>Forbindelser</h2>
 <form action="" method="post">
 <label for="t1from">Fagid fra</label>
@@ -92,6 +94,6 @@ if($_POST) {
 <label for="studentto">Student Til</label>
 <input type="number" name="studentto" id=""><br><br>
 <input type="submit" value="Send">
-</form>
+</form>-->
 </body>
 </html>

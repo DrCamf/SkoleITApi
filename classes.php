@@ -20,9 +20,9 @@ class SkemaInsert{
     public function insert($sqlstr)
     {
        
-        /*$statement = "        
-        INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (:fagid, :locationdid,' :start',' :ending');
-         ";*/
+        $statement = "        
+        //INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (:fagid, :locationdid,' :start',' :ending');
+         ";
 
         try {
 
@@ -69,6 +69,8 @@ class SkemaInsert{
 if($_POST) {
 
     $db = new DatabaseConnector();
+
+    $url = "https://svt.elthoro.dk/?pass=skema";
 
     $class = $_POST["class"];
     
@@ -175,7 +177,7 @@ if($_POST) {
   
         for($i = 0; $i <= count($mandagstart)-1; $i++) 
         {
-            $strSql .= "INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (" . $fag[0]  . ", " .  $room[0]  . ", '" .  $mandagstart[$i] . "', '" .  $mandagslut[$i] . "');";
+            $strSql .= "INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (" . $fag[0]  . ", " .  $room[0]  . ", '" .  $mandagstart[$i] . "', '" .  $mandagslut[$i] . "');  <br>";
              //SELECT MAX(id) FROM `Skema` LIMIT 1; ";
             
             //$fag = (object)array();
@@ -194,7 +196,7 @@ if($_POST) {
     if (!empty($tirdagsstart)) {
         for($i = 0; $i <= count($tirdagsstart)-1; $i++) 
         {
-            $strSql .= "INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (" . $fag[1]  . ", " .  $room[1]  . ", '" .  $tirdagsstart[$i] . "', '" .  $tirdagsslut[$i] . "');";
+            $strSql .= "INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (" . $fag[1]  . ", " .  $room[1]  . ", '" .  $tirdagsstart[$i] . "', '" .  $tirdagsslut[$i] . "'); <br>";
              //SELECT MAX(id) FROM `Skema` LIMIT 1; ";
             
              
@@ -216,7 +218,7 @@ if($_POST) {
     if (!empty($onsdagsstart)) {
        for($i = 0; $i <= count($onsdagsstart)-1; $i++) 
         {
-            $strSql .= "INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (" . $fag[2]  . ", " .  $room[2]  . ", '" .  $onsdagsstart[$i] . "', '" .  $onsdagsslut[$i] . "');";
+            $strSql .= "INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (" . $fag[2]  . ", " .  $room[2]  . ", '" .  $onsdagsstart[$i] . "', '" .  $onsdagsslut[$i] . "');  <br>";
              //SELECT MAX(id) FROM `Skema` LIMIT 1; ";
            
              
@@ -237,7 +239,7 @@ if($_POST) {
     if (!empty($torsdagsstart)) {
         for($i = 0; $i <= count($torsdagsstart)-1; $i++) 
         {
-            $strSql .= "INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (" . $fag[3]  . ", " .  $room[3]  . ", '" .  $torsdagsstart[$i] . "', '" .  $torsdagsslut[$i] . "');";
+            $strSql .= "INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (" . $fag[3]  . ", " .  $room[3]  . ", '" .  $torsdagsstart[$i] . "', '" .  $torsdagsslut[$i] . "');  <br>";
             // SELECT MAX(id) FROM `Skema` LIMIT 1; ";
            
             //$fag = (object)array();
@@ -257,7 +259,7 @@ if($_POST) {
     if (!empty($fredagsstart)) {
         for($i = 0; $i <= count($fredagsstart)-1; $i++) 
         {
-            $strSql .= "INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (" . $fag[4]  . ", " .  $room[4]  . ", '" .  $fredagsstart[$i] . "', '" .  $fredagsslut[$i] . "');";
+            $strSql .= "INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (" . $fag[4]  . ", " .  $room[4]  . ", '" .  $fredagsstart[$i] . "', '" .  $fredagsslut[$i] . "');  <br>";
             // SELECT MAX(id) FROM `Skema` LIMIT 1; ";
            
             
@@ -278,7 +280,7 @@ if($_POST) {
     }
     
     //$skemaInsert->insert($strSql);
-    //echo $strSql;
+    print_r($strSql);
     
     $idLast = $skemaInsert->getLast();
     echo "<br><br>";

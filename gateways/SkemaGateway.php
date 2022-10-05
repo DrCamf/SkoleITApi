@@ -15,8 +15,8 @@ class SkemaGateway
 
     public function insert(SkemaModel $skema)
     {
-       
-        /*$statement = "        
+       /*
+        $statement = "        
         INSERT INTO `Skema`(`fag_id`, `location_id`, `start`, `ending`) VALUES (:fagid, :locationdid, :start, :ending);
         SELECT MAX(id) AS Mid FROM `Skema` LIMIT 1; ";
 
@@ -37,7 +37,24 @@ class SkemaGateway
         } catch (\PDOException $e) 
         {
             exit($e->getMessage());
-        }  */  
+        }  */
+    }
+
+    public function insertString($sqlStr)
+    {
+       /* try {
+
+            $statement = $this->db->prepare($sqlStr);
+          
+            $statement->execute();
+           
+            $result = $statement->fetch(\PDO::FETCH_ASSOC);
+            return $result;
+
+        } catch (\PDOException $e) 
+        {
+            exit($e->getMessage());
+        }  */
     }
 
     public function findDay($whatday, $id){

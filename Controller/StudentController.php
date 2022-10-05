@@ -53,6 +53,9 @@ class StudentController {
                     break;
                     case 'grades':
                         $response = $this->getStudentGrades($this->id);
+                    case 'class':
+                        $response = $this->GetStudentByClass($this->id);
+                    break;
 
                 }
                 
@@ -152,6 +155,19 @@ class StudentController {
         return $response;
     }
    
+    private function GetStudentByClass() {
+        $result = $this->studentGateway->findStudentByClass($this->id);
+
+        if (! $result) {
+
+            return $this->notFoundResponse();
+        }
+
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = json_encode($result);
+        
+        return $response;
+    }
 
 }
 

@@ -10,6 +10,7 @@ include_once 'Controller/SkemaController.php';
 include_once 'Controller/StudentController.php';
 include_once 'Controller/TeacherController.php';
 include_once 'Controller/LocationController.php';
+include_once 'Controller/ClassController.php';
 
 header("Access-Control-Allow-Origin: *");
 
@@ -32,8 +33,14 @@ if ($_GET) {
     $item = "0";
     $id = 0;
     $pass = $_GET['pass'];
-    $item = $_GET['item'];
-    $id = $_GET['id'];
+   // $arrKeys = array_keys($_GET);
+    if(array_key_exists('item', $_GET)) {
+        $item = $_GET['item'];
+    }
+    if (array_key_exists('id', $_GET)) {
+        $id = $_GET['id'];
+    }
+    
     //echo "pass " . $pass . " item " . $item . " id " . $id;
 
     //Getting what method is requested it could be get, post, put or delete
@@ -42,7 +49,7 @@ if ($_GET) {
     switch($pass) {
 
         case 'underviser':
-            $controller = new TeacherController($requestMethod, $id);
+            $controller = new TeacherController($requestMethod, $item, $id);
             break;
 
         case 'elev':
@@ -58,7 +65,7 @@ if ($_GET) {
             break;
 
         case 'fag':
-            $controller = new FagController($requestMethod, $id);
+            $controller = new FagController($requestMethod, $item, $id);
             break;
 
         case 'besked':
@@ -72,9 +79,15 @@ if ($_GET) {
         case 'grade':
             $controller = new GradesController($requestMethod,$id);
             break;
+
         case 'room':
             $controller = new LocationController($requestMethod, $item,$id);
             break;
+
+        case 'class':
+            $controller = new ClassController($requestMethod, $item,$id);
+            break;   
+             
         default:
             $controller = new LoginController($requestMethod, $id);
             break;

@@ -2,35 +2,40 @@
 
 
 
-//include_once 'skemamodel.php';
+include_once 'skemamodel.php';
 include_once 'models/fagmodel.php';
-include_once 'gateways/FagGateway.php';
 include_once 'models/LokaleModel.php';
 include_once 'models/TeacherModel.php';
-include_once 'gateways/TeacherGateway.php';
 include_once 'models/ClassesModel.php';
-include_once 'gateways/ClassesGateway.php';
-
-include_once 'gateways/LocationsGateway.php';
-include_once 'database/DatabaseConnector.php';
-
-$item = "";
-$id = 0;
-
-$db = new DatabaseConnector();
-$fagGateway = new FagGateway($db->getConnection());
 
 
-$locationGateway = new LocationsGateway($db->getConnection());
-$classesGateway = new ClassesGateway($db->getConnection());
-$teacherGateway = new TeacherGateway($db->getConnection());
 
-$responseFag =  $fagGateway->findAll();
-$responseLocal =  $locationGateway->findAll();
-$responseTeacher = $teacherGateway->findAll();
+// get api call for location, fag, teacher, classes
 
-$responseClass = $classesGateway->findAll();
+// Urls
+$urlroom = 'https://svt.elthoro.dk/?pass=room';
+$urlfag = 'https://svt.elthoro.dk/?pass=fag';
+$urlteacher = 'https://svt.elthoro.dk/?pass=underviser';
+$urlclass = 'https://svt.elthoro.dk/?pass=class';
 
+
+// Get Fag
+$response =  ReceiveFromUrl($urlfag);
+$responseFag = json_decode($response, true);
+
+// Get location
+$response =  ReceiveFromUrl($urlroom);
+$responseLocal = json_decode($response, true);
+
+// Get Teacher
+$response =  ReceiveFromUrl($urlteacher);
+$responseTeacher = json_decode($response, true);
+
+// Get Classes
+$response =  ReceiveFromUrl($urlclass);
+$responseClass = json_decode($response, true);
+
+// Class Array
 $retClasses = array();
 foreach($responseClass as $resp) 
 {
@@ -41,15 +46,18 @@ foreach($responseClass as $resp)
     array_push( $retClasses, $class );  
 }  
 
+// Fag Array
 $retFag = array();
 foreach($responseFag as $resp) 
-        {
-            //$fag = (object)array();
-            $fag = new FagModel();
-            $fag->id = $resp["id"];
-            $fag->name = $resp["name"];
-            array_push( $retFag, $fag );  
-        }
+{
+    //$fag = (object)array();
+    $fag = new FagModel();
+    $fag->id = $resp["id"];
+    $fag->name = $resp["name"];
+    array_push( $retFag, $fag );  
+}
+
+// Room Array
 $retRoom = array();
 foreach($responseLocal as $resp) 
 {
@@ -60,6 +68,7 @@ foreach($responseLocal as $resp)
     array_push( $retRoom, $room );  
 }
 
+// Teacher Array
 $retTeacher = array();
 foreach($responseTeacher as $resp) 
 {
@@ -70,6 +79,24 @@ foreach($responseTeacher as $resp)
     array_push( $retTeacher, $room );  
 }
 
+function ReceiveFromUrl($url) {
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+          "cache-control: no-cache"
+        ),
+      ));
+      
+      $response = curl_exec($curl);
+      $err = curl_error($curl);
+      return $response;
+      curl_close($curl);
+}
 
 
 ?>
@@ -107,26 +134,6 @@ foreach($responseTeacher as $resp)
     <h2>SKEMA LÆGNING</h2>
 
 
-<?php
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-?>
-
-
-
 <form action="classes.php" method="post">
 <label for="week">Choose a week in Rest of 2022:</label>
 
@@ -138,6 +145,7 @@ foreach($responseTeacher as $resp)
     <td><select name="fagm" id="fagm">   
     
     <?php
+    // Fag dropdown for monday to friday
     foreach($retFag as $fag){
         echo '<option value="' .$fag->id .'">'. $fag->name .'</option>';
     }
@@ -178,6 +186,7 @@ foreach($responseTeacher as $resp)
     <td><select name="roomm" id="roomm">   
     
     <?php
+    // location dropdown for monday to friday
     foreach($retRoom as $fag){
         echo '<option value="' .$fag->id .'">'. $fag->name .'</option>';
     }
@@ -262,7 +271,7 @@ foreach($responseTeacher as $resp)
 
 </td>
 </tr>
-<tr>
+<tr> <!-- Date Times -->
     <td>Time</td>
     <td>Mandag <span id="mandag" ></span></td>
     <td>Tirsdag <span id="tirsdag"></span></td>

@@ -35,7 +35,7 @@ class TeacherGateway
 
     public function find($id){
        
-        $statement =""; //:id;
+        /*$statement =""; //:id;
     
         try {
 
@@ -49,7 +49,7 @@ class TeacherGateway
         } catch (\PDOException $e)
         {
             exit($e->getMessage());
-        }    
+        }  */  
     }
 
     public function findAll()

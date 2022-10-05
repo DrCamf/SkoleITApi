@@ -12,10 +12,11 @@ class TeacherController {
     private $requestMethod;
 
     private $id;
+    private $item;
 
     private $teacherGateway;
 
-    public function __construct( $requestMethod, $id)
+    public function __construct( $requestMethod, $item, $id)
     {
 
         $db = new DatabaseConnector();
@@ -23,6 +24,7 @@ class TeacherController {
         $this->requestMethod = $requestMethod;
 
         $this->id = $id;
+        $this->item = $item;
 
         $this->teacherGateway = new TeacherGateway($db->getConnection());
     }
@@ -38,7 +40,11 @@ class TeacherController {
                 break;
 
             case 'GET':
+                if($this->item == 'one') {
                 $response = $this->getTeacherData($this->id);
+                } else {
+                    $response = $this->getAllTeachers();
+                }
                 break;
         }
 
@@ -56,10 +62,9 @@ class TeacherController {
 
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-        if (! $this->validateEvent($input1)) {
-
+        if (! $this->validateEvent($input1)) 
+        {
             return $this->unprocessableEntityResponse();
-
         }
 
         $this->teacherGateway->insert($input);
@@ -76,10 +81,24 @@ class TeacherController {
     {
         $result = $this->teacherGateway->find($id);
 
-        if (! $result) {
-
+        if (! $result) 
+        {
             return $this->notFoundResponse();
+        }
 
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = json_encode($result);
+        
+        return $response;
+    }
+
+
+    private function getAllTeachers() {
+        $result = $this->teacherGateway->findAll();
+
+        if (! $result) 
+        {
+            return $this->notFoundResponse();
         }
 
         $response['status_code_header'] = 'HTTP/1.1 200 OK';

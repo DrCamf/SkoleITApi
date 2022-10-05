@@ -1,13 +1,11 @@
-
 <?php
-//skema controller 
 
 include_once 'ControllerFunctions.php';
-include_once 'gateways/SkemaGateway.php';
+include_once 'gateways/ClassesGateway.php';
 include_once 'database/DatabaseConnector.php';
 
-class SkemaController {
-
+class ClassController 
+{
     private $db;
 
     private $requestMethod;
@@ -15,7 +13,7 @@ class SkemaController {
     private $id;
     private $item;
 
-    private $skemaGateway;
+    private $classGateway;
 
     public function __construct( $requestMethod, $item, $id)
     {
@@ -27,27 +25,22 @@ class SkemaController {
         $this->id = $id;
         $this->item = $item;
 
-        $this->skemaGateway = new SkemaGateway($db->getConnection());
+        $this->classGateway = new ClassesGateway($db->getConnection());
     }
 
     public function processRequest()
     {
-        
-
         switch ($this->requestMethod) 
         {
             case 'POST':
-                if($this->item == 'one') {
-                    $response = $this->createSkemaDataFromRequest();
-                    } else {
-                        $response = $this->createSkemaDataFromString();
-                    }
+                $response = $this->createClassInputFromRequest();
                 break;
-               
-               
-
             case 'GET':
-                $response = $this->getSkemaData($this->item, $this->id);
+                if($this->item == 'one') {
+                $response = $this->getClassData($this->id);
+                } else {
+                    $response = $this->getAllClasses();
+                }
                 break;
         }
 
@@ -57,63 +50,34 @@ class SkemaController {
         {
             echo $response['body'];
         }
-
     }
 
-    private function createSkemaDataFromRequest()
+    private function createClassInputFromRequest()
     {
-
         $input = (array) json_decode(file_get_contents('php://input'), TRUE);
 
-        if (! $this->validateEvent($input)) {
-
+        if (! $this->validateEvent($input)) 
+        {
             return $this->unprocessableEntityResponse();
-
         }
 
-        $this->skemaGateway->insert($input);
+        $this->classGateway->insert($input);
 
         $response['status_code_header'] = 'HTTP/1.1 201 Created';
 
         $response['body'] = null;
 
         return $response;
-
     }
 
-    private function createSkemaDataFromString()
+    private function getClassData($id) 
     {
+        $result = $this->classGateway->find($id);
 
-        $input = (array) json_decode(file_get_contents('php://input'), TRUE);
-
-        if (! $this->validateEvent($input)) {
-
-            return $this->unprocessableEntityResponse();
-
-        }
-
-        $this->skemaGateway->insertString($sqlStr);
-
-        $response['status_code_header'] = 'HTTP/1.1 201 Created';
-
-        $response['body'] = null;
-
-        return $response;
-
-    }
-
-
-
-
-    private function getSkemaData($item, $id) 
-    {
-        $result = $this->skemaGateway->findDay($item, $id);
-
-        /*if (! $result) {
-
+        if (! $result) 
+        {
             return $this->notFoundResponse();
-
-        }*/
+        }
 
         $response['status_code_header'] = 'HTTP/1.1 200 OK';
         $response['body'] = json_encode($result);
@@ -121,7 +85,22 @@ class SkemaController {
         return $response;
     }
 
-   
+
+    private function getAllClasses() 
+    {
+        $result = $this->classGateway->findAll();
+
+        if (! $result) 
+        {
+            return $this->notFoundResponse();
+        }
+
+        $response['status_code_header'] = 'HTTP/1.1 200 OK';
+        $response['body'] = json_encode($result);
+        
+        return $response;
+    }
+
 }
 
 ?>
